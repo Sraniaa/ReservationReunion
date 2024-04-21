@@ -80,7 +80,6 @@ const createReservation = async (req, res) => {
 
 
 // Update existing reservation, ensuring authorization and checking for data integrity before saving changes
-import sendEmail from '../utils/emailSender.js'; // Make sure the path is correct
 
 const updateReservation = async (req, res) => {
   const { startTime, endTime, purpose, status } = req.body;

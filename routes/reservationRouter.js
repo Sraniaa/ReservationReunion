@@ -7,7 +7,6 @@ import {
   getAllReservations,
   getMyReservations,
   getReservationDetails,
-  cancelReservation
 } from '../controllers/reservationController.js'; // Reservation controller functions
 
 const router = express.Router();
@@ -26,8 +25,5 @@ router.post('/reservations', isAuthenticated, checkReservationOverlap, createRes
 
 // Updates an existing reservation, ensuring no overlaps with other bookings and that the requester has the right to modify
 router.patch('/reservations/:id', isAuthenticated, checkReservationOverlap, updateReservation); // Modify details of an existing reservation
-
-// Cancels a specific reservation, updating its status to 'cancelled', accessible only by the reservation owner or admins
-router.patch('/reservations/cancel/:id', isAuthenticated, cancelReservation); // Cancel an existing reservation
 
 export default router;
