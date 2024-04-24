@@ -44,39 +44,24 @@ const getReservationDetails = async (req, res) => {
 
 // Create a new reservation with provided details and default status as 'pending'
 const createReservation = async (req, res) => {
-  const { room, startTime, endTime, purpose } = req.body;
-  const user = req.user._id;
-
-  try {
-    const newReservation = new Reservation({
-      user: user,
-      room: room,
-      startTime: startTime,
-      endTime: endTime,
-      purpose: purpose,
-      status: 'pending', // Default status on creation
-    });
-    
-    // Save the reservation to the database
-    await newReservation.save();
-
-    // Prepare and send the email notification
-    const emailOptions = {
-      email: user.email, // Ensure user object has email
-      subject: 'Reservation Created',
-      text: `Hi ${user.name},\n\nYour reservation for ${room} on ${new Date(startTime).toLocaleString()} to ${new Date(endTime).toLocaleString()} has been successfully created.\n\nPurpose: ${purpose}\n\nThank you for using our service.`,
-
-    };
-
-    await sendEmail(emailOptions);
-
-    // Respond to the client after email is sent
-    res.status(201).json({ message: "Reservation created successfully", reservation: newReservation });
-  } catch (error) {
-    console.error("Reservation creation failed:", error);
-    res.status(500).json({ message: "Failed to create reservation", error: error.message });
-  }
+const {room, startTime, endTime, purpose } = req. body;
+const user= req.user._id;//Assuming the user is authenticated and user ID
+try {
+const newReservation = new Reservation ({
+user: user,
+room: room,
+startTime: startTime,
+ endTime:endTime,
+ purpose: purpose,
+status: 'pending', // Default status on creation
+});
+await newReservation.save();
+res. status (201).json({ message: "Reservation created successfully", reservation:newReservation});
+} catch (error){
+res.status (500).json ({message: "Failed to create reservation", error: error.message});
+}
 };
+
 
 
 // Update existing reservation, ensuring authorization and checking for data integrity before saving changes
